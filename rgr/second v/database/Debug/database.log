@@ -1,0 +1,3 @@
+﻿  database.cpp
+database.obj : error LNK2019: ссылка на неразрешенный внешний символ "void __cdecl DInit(struct Dish *)" (?DInit@@YAXPAUDish@@@Z) в функции _main
+\\85.142.157.67\Common\КТ-31-22\Илюхин Данил\Программирование\rgr\database\Debug\database.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
