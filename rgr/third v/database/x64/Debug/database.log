@@ -1,0 +1,3 @@
+﻿  database.cpp
+database.obj : error LNK2019: unresolved external symbol "void __cdecl DInit(struct Dish *)" (?DInit@@YAXPEAUDish@@@Z) referenced in function main
+H:\Programming\forks\database\rgr\third v\x64\Debug\database.exe : fatal error LNK1120: 1 unresolved externals

@@ -1,17 +1,12 @@
 #pragma once
 
-#include <vector>
-
 using namespace std;
 
-struct Dish;
-
 int createDefaultDishes();
-
-vector<int> ShowDishesDatabase(vector<Dish>& Dishes);
-
-vector<Dish> ChangeDishesDatabase(vector<Dish>& Dishes);
-
-vector <Dish> ShowSerialDish(vector <Dish>& Dishes);
-
-vector <Dish> SortDishesDataBaseByCalory(vector <Dish>& Dishes);
+void sortedInsert(struct Dish** headRef, struct Dish* newNode)
+void insertionSort(struct Dish** headRef)
+void showDishesDatabase(struct Dish* head)
+void deletion(struct Dish** headRef, int code)
+void push(struct Dish** headRef)
+void showSerialDish(struct Dish* head, int code)
+void ChangeDishesDatabase(struct Dish* head)

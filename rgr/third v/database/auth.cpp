@@ -1,26 +1,27 @@
-int Auth(vector <Worker>& Workers) {
-	string password = "";
+#include "models.h"
+#include "auth.h"
+
+int Auth(struct Worker** head) {
+    string password = "";
 	string login = "";
 
-	printf("Введите логин\n");
+	printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ\n");
 	cin >> login;
-	printf("Введите пароль\n");
+	printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ\n");
 	cin >> password;
 
 	transform(login.begin(), login.end(), login.begin(), tolower);
 
-	for (int i = 0; i < (int)Workers.size(); i++) {
-		if (Workers[i]._login == login) {
-			if (Workers[i]._password == password) {
+    while (head != NULL) {
+        if (head->_login == login) {
+			if (head->_password == password) {
 				printf("success\n");
-				return(Workers[i]._accessLevel);
+				return(head->_accessLevel);
 			}
 			else {
 				break;
 			}
 		}
-	}
-	printf("Вы ввели неверные данные, попробуйте снова\n");
-
-	return -1;
+        head = head->next;
+    }
 }

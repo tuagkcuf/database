@@ -1,14 +1,5 @@
 #include "dish.h"
-
-struct Dish {
-	int code;
-	string name;
-	string ingredients;
-	int time;
-	int numberOfTable;
-	int calories;
-	struct Dish *next, *prev;
-};
+#include "models.h"
 
 void sortedInsert(struct Dish** headRef, struct Dish* newNode) {
     struct Dish* current;
@@ -64,7 +55,7 @@ int createDefaultDishes() {
 
 void showDishesDatabase(struct Dish* head) {
     while (head != NULL) {
-        printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", Dishes->code, Dishes->name.c_str(), Dishes->ingredients.c_str(), Dishes->time, Dishes->numberOfTable, Dishes->calories);
+        printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", head->code, head->name.c_str(), head->ingredients.c_str(), head->time, head->numberOfTable, head->calories);
         head = head->next;
     }
 }
@@ -85,14 +76,14 @@ void deletion(struct Dish** headRef, int code) {
     printf("there is no dish with such a code");
 }
 
-void push(struct Dish** headRef, int code, string name, string ingredients, int time, int numberOfTable, int calories) {
+void push(struct Dish** headRef) {
     struct Dish* newNode = (struct Dish*)malloc(sizeof(struct Dish));
-    newNode->code = code;
-    newNode->name = name;
-    newNode->ingredients = ingredients;
-    newNode->time = time;
-    newNode->numberOfTable = numberOfTable;
-    newNode->calories = calories;
+    newNode->code = headRef.code + 1;
+    cin >> newNode->name;
+    cin >> newNode->ingredients;
+    cin >> newNode->time;
+    cin >> newNode->numberOfTable;
+    cin >> newNode->calories;
 
     newNode->next = (*headRef);
     newNode->prev = NULL;
@@ -106,30 +97,21 @@ void push(struct Dish** headRef, int code, string name, string ingredients, int 
 void showSerialDish(struct Dish* head, int code) {
     while (head != NULL) {
         if (head->code == code) {
-            printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", Dishes->code, Dishes->name.c_str(), Dishes->ingredients.c_str(), Dishes->time, Dishes->numberOfTable, Dishes->calories);
+            printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", head->code, head->name.c_str(), head->ingredients.c_str(), head->time, head->numberOfTable, head->calories);
             return;
         }
         head = head->next;
     }
 }
 
-// vector<Dish> ShowDishesDatabase(vector<Dish>& Dishes) {
-// 	printf("������ ����:\n���    ��������     ����e������    ����� �������������     ����� �����     �������\n");
-// 	for (int i = 0; i < (int)Dishes.size(); i++) {
-// 		printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", Dishes[i].code, Dishes[i].name.c_str(), Dishes[i].ingredients.c_str(), Dishes[i].time, Dishes[i].numberOfTable, Dishes[i].calories);
-// 	}
-// 	printf("---------------------------------------\n");
-// 	return(Dishes);
-// }
-
-vector<Dish> ChangeDishesDatabase(vector<Dish>& Dishes) {
+void ChangeDishesDatabase(struct Dish* head) {
 	int func = 0;;
 	printf("������� ����� �������� ������� 1 - ������� ������, 2 - �������� ������\n");
 	scanf("%d", &func);
 	switch (func) {
 	case 1: {
 		int searchId = 0;
-		ShowDishesDatabase(Dishes);
+		ShowDishesDatabase(head);
 		printf("�������� code ������ ������� ������ �������\n");
 		scanf("%d", &searchId);
 		int counter = 0;
@@ -140,9 +122,9 @@ vector<Dish> ChangeDishesDatabase(vector<Dish>& Dishes) {
 				int confirm = 0;
 				scanf("%d", &confirm);
 				if (confirm == 1) {
-					Dishes.erase(Dishes.begin() + i);
+					deletion(head, i);
 					printf("�� ������� ������� �������.\n� ������ ������ ���� ������ ������� �������� ���:\n");
-					ShowDishesDatabase(Dishes);
+					ShowDishesDatabase(head);
 				}
 				else {
 					printf("�� ��������� �������� ��������\n");
@@ -154,51 +136,13 @@ vector<Dish> ChangeDishesDatabase(vector<Dish>& Dishes) {
 		break;
 	}
 	case 2: {
-		Dish temp;
-		int lastId;
-		lastId = Dishes[Dishes.size() - 1].code;
 		printf("������� ������ ����� � ������� ��� ����������� �����_������������� �����_����� �������\n");
-		cin >> temp.name;
-		cin >> temp.ingredients;
-		cin >> temp.time;
-		cin >> temp.numberOfTable;
-		cin >> temp.calories;
-		temp.code = lastId + 1;
-		Dishes.push_back(temp);
+        push(head)
 		printf("�� ������� �������� ����� � ���� ������. Id ������������ ���� ������ - %d\n", Dishes[Dishes.size() - 1].code);
 		printf("---------------------------------------\n");
-		ShowDishesDatabase(Dishes);
+		ShowDishesDatabase(head);
 		break;
 	}
 	default: "�� ����� �������� ��������, ������������� ��� � ������� ����."; return Dishes;
 	}
-	return Dishes;
 }
-
-// vector <Dish> ShowSerialDish(vector <Dish>& Dishes) {
-// 	int searchId = 0;
-// 	printf("������� code �������� �����\n");
-// 	scanf("%d", &searchId);
-// 	for (int i = 0; i < (int)Dishes.size(); i++) {
-// 		if (searchId == Dishes[i].code) {
-// 			printf("������� ���� �����:\n��� �������� - %d, �������� - %s, ����e������ - %s, ����� ������������� - %d, ����� ����� - %d, ������� - %d\n",
-// 				Dishes[i].code, Dishes[i].name.c_str(), Dishes[i].ingredients.c_str(), Dishes[i].time, Dishes[i].numberOfTable, Dishes[i].calories);
-// 			return(Dishes);
-// 		}
-// 	}
-// 	printf("������� ����  ����� �� ������");
-// 	return Dishes;
-// }
-
-// vector <Dish> SortDishesDataBaseByCalory(vector <Dish>& Dishes) {
-// 	int listLength = Dishes.size();
-// 	while (listLength--) {
-// 		for (int i = 0; i < listLength; i++) {
-// 			if (Dishes[i].calories > Dishes[i + 1].calories) {
-// 				swap(Dishes[i], Dishes[i + 1]);
-// 			}
-// 		}
-// 	}
-// 	ShowDishesDatabase(Dishes);
-// 	return Dishes;
-// }

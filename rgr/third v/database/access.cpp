@@ -1,13 +1,18 @@
-int AccessLevel0Tools(vector <Dish>& Dishes, vector <Worker>& Workers, vector<Table>& Tables) {
+#inlcude "table.h"
+#inlcude "workers.h"
+#inlcude "dish.h"
+#include "models.h"
+
+int AccessLevel0Tools(struct Dish** Dishes, struct Worker** Workers, struct Table** Tables) {
 	int function = -1;
 	while (function != 0) {
 		printf("Список функций:\n 1 - Показать список блюд, 2 - Отсортировать список блюд. 3 - Изменить список блюд, 4 - Показать данные блюда по code, 0 - Выход из системы\n");
 		scanf("%d", &function);
 		switch (function) {
-		case 1: ShowDishesDatabase(Dishes); break;
-		case 2: SortDishesDataBaseByCalory(Dishes); break;
-		case 3: ChangeDishesDatabase(Dishes); break;
-		case 4: ShowSerialDish(Dishes); break;
+		case 1: ShowDishesDatabase(*Dishes); break;
+		case 2: SortDishesDataBaseByCalory(*Dishes); break;
+		case 3: ChangeDishesDatabase(*Dishes); break;
+		case 4: ShowSerialDish(*Dishes); break;
 		case 0: break;
 		}
 	}
@@ -15,7 +20,7 @@ int AccessLevel0Tools(vector <Dish>& Dishes, vector <Worker>& Workers, vector<Ta
 	return EXIT_SUCCESS;
 }
 
-int AccessLevel1Tools(vector <Dish>& Dishes, vector <Worker>& Workers, vector<Table>& Tables) {
+int AccessLevel1Tools(struct Dish** Dishes, struct Worker** Workers, struct Table** Tables) {
 	int function = -1;
 	while (function != 0) {
 		printf("Список функций:\n 1 - Показать список заказов, 2 - Отсортировать список заказов. 3 - Изменить список заказов, 4 - Показать данные заказа по Id, 5 - Взамодействия с работниками, 0 - Выход из системы\n");
@@ -41,7 +46,7 @@ int AccessLevel1Tools(vector <Dish>& Dishes, vector <Worker>& Workers, vector<Ta
 	return EXIT_SUCCESS;
 }
 
-int AccessLevel2Tools(vector <Dish>& Dishes, vector <Worker>& Workers, vector<Table>& Tables) {
+int AccessLevel2Tools(struct Dish** Dishes, struct Worker** Workers, struct Table** Tables) {
 	int Function = -1;
 	while (Function != 0) {
 		printf("Список функций:\n 1 - Показать список заказов, 2 - Отсортировать список заказов. 3 - Изменить список заказов, 4 - Показать данные заказа по Id, 5 - Взамодействия с работниками, 0 - Выход из системы\n");

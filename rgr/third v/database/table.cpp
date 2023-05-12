@@ -1,7 +1,5 @@
-struct Table {
-	int code;
-	string name;
-};
+#include "table.h"
+#include "models.h"
 
 int CreateDefaultTables() {
 	ofstream fout;
@@ -16,61 +14,46 @@ int CreateDefaultTables() {
 	return EXIT_SUCCESS;
 }
 
-vector <Table> ShowTablesDatabase(vector <Table>& Tables) {
-	printf("Список столов:\nCode     Name\n");
-	for (int i = 0; i < (int)Tables.size(); i++) {
-		printf("%d\t%s\n", Tables[i].code, Tables[i].name.c_str());
+void ShowTablesDatabase(struct Table* head, int code) {
+    while (head != NULL) {
+        if (head->code == code) {
+            printf("%d\t%s\t%s\t%d\t%d\t%d\t\n", head->code, head->name.c_str(), head->ingredients.c_str(), head->time, head->numberOfTable, head->calories);
+            return;
+        }
+        head = head->next;
+    }
+}
+
+void push(struct Table** headRef) {
+	struct Dish* newNode = (struct Dish*)malloc(sizeof(struct Dish));
+	newNode->code = headRef.code + 1;
+	cin >> newNode->name;
+	cin >> newNode->ingredients;
+	cin >> newNode->time;
+	cin >> newNode->numberOfTable;
+	cin >> newNode->calories;
+
+	newNode->next = (*headRef);
+	newNode->prev = NULL;
+
+	if (*headRef != NULL) {
+		*headRef->prev = newNode;
 	}
-	printf("---------------------------------------\n");
-	return(Tables);
+	*headRef = newNode;
 }
 
-vector <Table> addTable(vector <Table>& Tables) {
-	ofstream fout;
-	Table temp;
-	int code;
-	string name;
-	printf("Введите данные в указанном порядке: Название\n");
-
-	temp.code = Tables.size();
-	cin >> temp.name;
-	Tables.push_back(temp);
-	fout.open("TablesInfo.dat", ofstream::app);
-	code = temp.code; fout << code << " ";
-	name = temp.name; fout << name << " " << '\n';
-	printf("Вы успешно добавили стол %s\n", temp.name.c_str());
-
-	return Tables;
-}
-
-vector <Table> removeTable(vector <Table>& Tables) {
-	int searchId = 0;
-	int counter = 0;
-
-	ShowTablesDatabase(Tables);
-
-	printf("Введите code стола которого хотите удалить из системы\n");
-	scanf("%d", &searchId);
-
-	for (int i = 0; i < (int)Tables.size(); i++) {
-		if (searchId == Tables[i].code) {
-			int confirm = 0;
-			counter += 1;
-			printf("Вы действительно хотите удалить стол %d из системы? 1 - Да. 0 - Нет\n", Tables[i].code);
-			scanf("%d", &confirm);
-			if (confirm == 1) {
-				Tables.erase(Tables.begin() + i);
-				printf("Вы успешно удалили элемент. Теперь база данных выглядит так:\n");
-				ShowTablesDatabase(Tables);
+void deletion(struct Table** headRef, int code) {
+	struct Dish* current = *headRef;
+	while (current != NULL) {
+		if (code == current->code) {
+			if (current->prev != NULL) {
+				current->prev = current->next;
+				printf("deletion is complete");
+				return;
 			}
-			else {
-				printf("Вы отклонили удаление элемента\n");
-			}
-			break;
 		}
-
+		current = current->next;
 	}
-	if (counter == 0) printf("работник с указанным Id не найден");
 
-	return Tables;
+	printf("there is no dish with such a code");
 }

@@ -1,58 +1,79 @@
 #include "initialization.h"
 #include "models.h"
-#include <vector>
+#include "worker.h"
+#include "table.h"
+#include "dish.h"
 
-vector <Worker> WInit(vector <Worker>& Workers) {
+void WInit(struct Worker** Workers) {
+	struct Worker* current = *workersHead;
+	struct Worker* temp = *current;
 	string str;
 	ifstream fin;
-	Worker temp;
-	fin.open("UsersData.dat");
+	fin.open("WorkersInfo.dat");
 	if (fin.is_open()) {
 		while (!fin.eof()) {
+			struct Worker* neww = (struct Worker*)malloc(sizeof(struct Worker));
 			str = "";
-			fin >> str; if (str != "") temp.id = stoi(str.c_str());
-			fin >> str; if (str != "") temp.secondName = str.c_str();
-			fin >> str; if (str != "") temp.name = str.c_str();
-			fin >> str; if (str != "") temp.phoneNumber = str.c_str();
-			fin >> str; if (str != "") temp._login = str.c_str();
-			fin >> str; if (str != "") temp._password = str.c_str();
-			fin >> str; if (str != "") temp._accessLevel = stoi(str.c_str());
-			if (str != "") Workers.push_back(temp);
+			fin >> str; if (str != "") neww->id = stoi(str.c_str());
+			fin >> str; if (str != "") neww->secondName = str.c_str();
+			fin >> str; if (str != "") neww->name = str.c_str();
+			fin >> str; if (str != "") neww->phoneNumber = str.c_str();
+			fin >> str; if (str != "") neww->_login = str.c_str();
+			fin >> str; if (str != "") neww->_password = str.c_str();
+			fin >> str; if (str != "") neww->_accessLevel = stoi(str.c_str());
+			if (str != "") {
+				temp->next = neww;
+				temp->next->prev = temp;
+				temp = temp->next;
+				temp->next = NULL;
+			}
 		}
 		fin.close();
-		printf("Workers initialization complete.\n");
+		printf("Worker initialization complete.\n");
+		*workersHead->next = current;
 	}
 	else {
 		fin.close();
-		printf("Workers initialization failed. Loading Default settings.\n");
-		CreateDefaultWorkers();
-		WInit(Workers);
+		printf("Worker initialization failed. Loading default settings.\n");
+		createDefaultWorkers();
+		DInit(workersHead);
 	}
-	return Workers;
 }
 
-vector<Table> TInit(vector <Table>& Tables) {
+void TInit(struct Table** Tables) {
+	struct Table* current = *tablesHead;
+	struct Table* temp = *current;
 	string str;
 	ifstream fin;
-	Table temp;
 	fin.open("TablesInfo.dat");
 	if (fin.is_open()) {
 		while (!fin.eof()) {
+			struct Table* neww = (struct Table*)malloc(sizeof(struct Table));
 			str = "";
-			fin >> str; if (str != "") temp.code = stoi(str.c_str());
-			fin >> str; if (str != "") temp.name = str.c_str();
-			if (str != "") Tables.push_back(temp);
+			fin >> str; if (str != "") neww->id = stoi(str.c_str());
+			fin >> str; if (str != "") neww->secondName = str.c_str();
+			fin >> str; if (str != "") neww->name = str.c_str();
+			fin >> str; if (str != "") neww->phoneNumber = str.c_str();
+			fin >> str; if (str != "") neww->_login = str.c_str();
+			fin >> str; if (str != "") neww->_password = str.c_str();
+			fin >> str; if (str != "") neww->_accessLevel = stoi(str.c_str());
+			if (str != "") {
+				temp->next = neww;
+				temp->next->prev = temp;
+				temp = temp->next;
+				temp->next = NULL;
+			}
 		}
 		fin.close();
-		printf("Tables Initialization Complete.\n");
+		printf("Tables initialization complete.\n");
+		*tablesHead->next = current;
 	}
 	else {
 		fin.close();
-		printf("Tables initialization failed. Loading Default settings.\n");
-		CreateDefaultTables();
-		TInit(Tables);
+		printf("Tables initialization failed. Loading default settings.\n");
+		createDefaultTables();
+		DInit(tablesHead);
 	}
-	return Tables;
 }
 
 void DInit(struct Dish** DishesHead) {

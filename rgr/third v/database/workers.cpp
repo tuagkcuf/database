@@ -1,7 +1,5 @@
-struct Worker {
-	string secondName, name, phoneNumber, _login, _password;
-	int id, _accessLevel;
-};
+#include "models.h"
+#include "workers.h"
 
 int CreateDefaultWorkers() {
 	ofstream fout;
@@ -16,86 +14,57 @@ int CreateDefaultWorkers() {
 	return EXIT_SUCCESS;
 }
 
-vector <Worker> ShowWorkersDataBase(vector <Worker>& Workers) {
-	printf("Список работников:\nId    SecondName     Name    Numberphone\n");
-	for (int i = 0; i < (int)Workers.size(); i++) {
+void showDishesDatabase(struct Dish* head) {
+	printf("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:\nId    SecondName     Name    Numberphone\n");
+	while (head != NULL) {
 		printf("%d\t%s\t%s\t%s\n", Workers[i].id, Workers[i].secondName.c_str(), Workers[i].name.c_str(), Workers[i].phoneNumber.c_str());
+		head = head->next;
 	}
-	printf("---------------------------------------\n");
-	return Workers;
 }
 
-vector <Worker> AddWorker(vector <Worker>& Workers) {
-	ofstream fout;
-	Worker temp;
-	int Int;
-	string str;
-	printf("Введите данные в указанном порядке: Фамилия, Имя, Номер Телефона, Логин, Пароль, Уровень доступа\n");
+void push(struct Dish** headRef) {
+	struct Dish* newNode = (struct Dish*)malloc(sizeof(struct Dish));
+	newNode->code = headRef.code + 1;
+	cin >> newNode.secondName;
+	cin >> newNode.name;
+	cin >> newNode.phoneNumber;
+	cin >> newNode._login;
+	cin >> newNode._password;
+	cin >> newNode._accessLevel;
 
-	temp.id = Workers.size();
-	cin >> temp.secondName;
-	cin >> temp.name;
-	cin >> temp.phoneNumber;
-	cin >> temp._login;
-	cin >> temp._password;
-	cin >> temp._accessLevel;
-	Workers.push_back(temp);
-	fout.open("UsersData.dat", ofstream::app);
-	Int = temp.id; fout << Int << " ";
-	str = temp.secondName; fout << str << " ";
-	str = temp.secondName; fout << str << " ";
-	str = temp.phoneNumber; fout << str << " ";
-	str = temp._login; fout << str << " ";
-	Int = temp._accessLevel; fout << Int << "\n";
-	printf("Вы успешно добавили работника %s %s\n", temp.secondName.c_str(), temp.name.c_str());
+	newNode->next = (*headRef);
+	newNode->prev = NULL;
 
-	return Workers;
+	if (*headRef != NULL) {
+		*headRef->prev = newNode;
+	}
+	*headRef = newNode;
+
+	printf("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ %s %s\n", newNode.secondName.c_str(), newNode.name.c_str());
 }
 
-vector <Worker> RemoveWorker(vector <Worker>& Workers) {
-	int searchId = 0;
-	int counter = 0;
-
-	ShowWorkersDataBase(Workers);
-
-	printf("Введите Id работника которого хотите удалить из системы\n");
-	scanf("%d", &searchId);
-
-	for (int i = 0; i < (int)Workers.size(); i++) {
-		if (searchId == Workers[i].id) {
-			int confirm = 0;
-			counter += 1;
-			printf("Вы действительно хотите удалить работника %d из системы? 1 - Да. 0 - Нет\n", Workers[i].id);
-			scanf("%d", &confirm);
-			if (confirm == 1) {
-				Workers.erase(Workers.begin() + i);
-				printf("Вы успешно удалили элемент. Теперь база данных выглядит так:\n");
-				ShowWorkersDataBase(Workers);
+void deletion(struct Dish** headRef, int code) {
+	struct Dish* current = *headRef;
+	while (current != NULL) {
+		if (code == current->code) {
+			if (current->prev != NULL) {
+				current->prev = current->next;
+				printf("deletion is complete");
+				return;
 			}
-			else {
-				printf("Вы отклонили удаление элемента\n");
-			}
-			break;
 		}
-
+		current = current->next;
 	}
-	if (counter == 0) printf("работник с указанным Id не найден");
 
-	return Workers;
+	printf("there is no dish with such a code");
 }
 
-vector <Worker> GetWorkerInfo(vector <Worker>& Workers) {
-	int searchId = 0;
-	int counter = 0;
-	printf("Введите Id искомого работника\n");
-	scanf("%d", &searchId);
-	for (int i = 0; i < (int)Workers.size(); i++) {
-		if (searchId == Workers[i].id) {
-			printf("Искомый вами работник:\nId - %d, Фамилия - %s, Имя - %s, Номер телефона - %s, Уровень доступа - %d\n", Workers[i].id, Workers[i].secondName.c_str(), Workers[i].name.c_str(), Workers[i].phoneNumber.c_str(), Workers[i]._accessLevel);
-			counter += 1;
-			break;
+void showSerialWorker(struct Dish* head, int code) {
+	while (head != NULL) {
+		if (head->code == code) {
+			printf("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:\nId - %d, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - %s, пїЅпїЅпїЅ - %s, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - %s, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - %d\n", head->id, head->secondName.c_str(), head->name.c_str(), head->phoneNumber.c_str(), head->_accessLevel);
+			return;
 		}
+		head = head->next;
 	}
-	if (counter == 0) printf("Работник с указанным Id не найден. Он уволен либо не присутствует в базе данных.");
-	return(Workers);
 }
